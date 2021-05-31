@@ -45,7 +45,7 @@ namespace CsvToJson
             //StopTimer();
         }
 
-        private void ConvertFile(string filename, string outputDirectory)
+        public void ConvertFile(string filename, string outputDirectory)
         {
             StringBuilder output = new StringBuilder();
 

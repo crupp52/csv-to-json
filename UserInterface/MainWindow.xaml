@@ -1,0 +1,32 @@
+﻿<Window x:Class="UserInterface.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Konverter" Height="200" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Forrás"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="sourcePathText"></TextBox>
+        <Button Grid.Row="0" Grid.Column="2" Content="Tallózás" Click="BrowseSource"></Button>
+        <Label Grid.Row="1" Grid.Column="0" Content="Cél"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="destinationPathText"></TextBox>
+        <Button Grid.Row="1" Grid.Column="2" Content="Tallózás" Click="BrowseDestination"></Button>
+        
+        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Content="Konvertálás" Click="ConvertFiles"></Button>
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="progressBarText"/>
+        </Grid>
+    </Grid>
+</Window>
