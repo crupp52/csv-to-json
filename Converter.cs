@@ -19,9 +19,9 @@ namespace CsvToJson
             numberOfElements = 0;
         }
 
-        public void ConvertDirectory(string directoryName)
+        public void ConvertDirectory(string directoryName, string outputDirectory = "csv2json")
         {
-            StartTimer();
+            //StartTimer();
             
             string[] filenames = Directory.GetFiles(directoryName);
             numberOfElements = filenames.Length;
@@ -31,7 +31,7 @@ namespace CsvToJson
             for (int i = 0; i < filenames.Length; i++)
             {
                 int index = i;
-                tasks[index] = new Task(() => ConvertFile(filenames[index]));
+                tasks[index] = new Task(() => ConvertFile(filenames[index], outputDirectory));
             }
 
             for (int i = 0; i < filenames.Length; i++)
@@ -42,10 +42,10 @@ namespace CsvToJson
 
             Task.WaitAll(tasks);
             
-            StopTimer();
+            //StopTimer();
         }
 
-        private void ConvertFile(string filename)
+        private void ConvertFile(string filename, string outputDirectory)
         {
             StringBuilder output = new StringBuilder();
 
@@ -94,12 +94,12 @@ namespace CsvToJson
 
             output.Append("]");
 
-            File.WriteAllText($@"csv2json\{Path.GetFileNameWithoutExtension(filename)}.json", output.ToString(), Encoding.UTF8);
+            File.WriteAllText($@"{outputDirectory}\{Path.GetFileNameWithoutExtension(filename)}.json", output.ToString(), Encoding.UTF8);
 
-            lock (_lockObject)
-            {
-                Console.WriteLine($@"Converted: {filename} to csv2json\{Path.GetFileNameWithoutExtension(filename)}.json" );
-            }
+            //lock (_lockObject)
+            //{
+            //    Console.WriteLine($@"Converted: {filename} to csv2json\{Path.GetFileNameWithoutExtension(filename)}.json" );
+            //}
         }
 
         private void StartTimer()
