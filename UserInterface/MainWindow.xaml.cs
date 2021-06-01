@@ -73,7 +73,7 @@ namespace UserInterface
             }
             catch (Exception exception)
             {
-                MessageBox.Show("Hiba lépett fel a fájlok átalakítása közben.", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Hiba lépett fel a fájlok átalakítása közben. {exception.Message}", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

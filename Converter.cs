@@ -20,9 +20,7 @@ namespace CsvToJson
         }
 
         public void ConvertDirectory(string directoryName, string outputDirectory = "csv2json")
-        {
-            //StartTimer();
-            
+        {            
             string[] filenames = Directory.GetFiles(directoryName);
             numberOfElements = filenames.Length;
 
@@ -41,8 +39,6 @@ namespace CsvToJson
             }
 
             Task.WaitAll(tasks);
-            
-            //StopTimer();
         }
 
         public void ConvertFile(string filename, string outputDirectory)
@@ -51,45 +47,46 @@ namespace CsvToJson
 
             output.Append("[");
 
-            using (StreamReader sr = new StreamReader(filename, Encoding.UTF8))
+            var lines = File.ReadAllLines(filename);
+
+            int i = 0;
+
+            while (lines[i++] != "[Data]")
             {
-                for (int i = 0; i < 9; i++)
+            }
+
+            while (i < lines.Length)
+            {
+                output.Append("[");
+
+                string[] columns = lines[i].Split(';');
+
+                for (int j = 0; j < columns.Length; j++)
                 {
-                    sr.ReadLine();
-                }
-
-                while (!sr.EndOfStream)
-                {
-                    output.Append("[");
-
-                    string line = sr.ReadLine();
-
-                    string[] columns = line.Split(';');
-
-                    for (int i = 0; i < columns.Length; i++)
+                    if (columns[j] != "")
                     {
-                        if (columns[i] != "")
+                        if (j + 1 < columns.Length && columns[j + 1] != "")
                         {
-                            if (columns[i + 1] != "")
-                            {
-                                output.Append(double.Parse(columns[i]).ToString("0.00", CultureInfo.InvariantCulture) + ", ");
-                            }
-                            else
-                            {
-                                output.Append(double.Parse(columns[i]).ToString("0.00", CultureInfo.InvariantCulture));
-                            }
+                            output.Append(double.Parse(columns[j]).ToString("0.00", CultureInfo.InvariantCulture) + ", ");
+                        }
+                        else
+                        {
+                            output.Append(double.Parse(columns[j]).ToString("0.00", CultureInfo.InvariantCulture));
                         }
                     }
-
-                    if (!sr.EndOfStream)
-                    {
-                        output.Append("],");
-                    }
-                    else
-                    {
-                        output.Append("]");
-                    }
                 }
+
+                if (i < lines.Length)
+                {
+                    output.Append("],");
+                }
+                else
+                {
+                    output.Append("]");
+                }
+
+
+                i++;
             }
 
             output.Append("]");
@@ -100,20 +97,6 @@ namespace CsvToJson
             //{
             //    Console.WriteLine($@"Converted: {filename} to csv2json\{Path.GetFileNameWithoutExtension(filename)}.json" );
             //}
-        }
-
-        private void StartTimer()
-        {
-            sw.Reset();
-
-            sw.Start();
-        }
-
-        private void StopTimer()
-        {
-            sw.Stop();
-
-            Console.WriteLine($"Converted files: {numberOfElements}\nElapsed time: {sw.Elapsed.TotalMinutes}m\nAverage convert time: {sw.Elapsed.TotalSeconds / numberOfElements}s");
         }
     }
 }
